@@ -5,9 +5,7 @@ import { sequelize } from '../database/config.js';
 const Cliente = sequelize.define('Cliente', {
     idCliente: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         unique: true,
-        primaryKey: true,
     },
     nombre: {
         type: DataTypes.STRING,

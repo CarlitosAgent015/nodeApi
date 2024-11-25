@@ -5,9 +5,8 @@ import Permiso from './permiso.js';
 const Rol = sequelize.define('Rol', {
     idRol: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         unique: true,
-        primaryKey: true
+        primaryKey: true,
     },
     nombre: {
         type: DataTypes.STRING
@@ -16,8 +15,7 @@ const Rol = sequelize.define('Rol', {
         type: DataTypes.STRING,
     },
     estado: {
-        type: DataTypes.ENUM('activo', 'inactivo'),
-        defaultValue: 'activo'
+        type: DataTypes.STRING,
     }
 },{
     tableName: 'roles',

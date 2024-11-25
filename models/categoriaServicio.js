@@ -5,7 +5,6 @@ import { sequelize } from '../database/config.js';
 const CategoriaServicio = sequelize.define('CategoriaServicio', {
     idCategoria: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         unique: true,
         primaryKey: true, // Asegúrate de que este sea un PK
     },

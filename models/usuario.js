@@ -4,8 +4,7 @@ import { sequelize } from '../database/config.js';
 const Usuario = sequelize.define('Usuario', {
     idUsuario: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        unique: true
+        unique: true,
     },
     nombre: {
         type: DataTypes.STRING
@@ -14,8 +13,7 @@ const Usuario = sequelize.define('Usuario', {
         type: DataTypes.STRING,
     },
     estado: {
-        type: DataTypes.ENUM('activo', 'inactivo'),
-        defaultValue: 'activo'
+        type: DataTypes.STRING,
     }
 },{
     tableName: 'usuarios',

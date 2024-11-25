@@ -1,15 +1,9 @@
 import Tecnico from '../models/tecnico.js';
-import CategoriaTecnico from '../models/categoriaTecnico.js';
 
 // Obtener todos los técnicos
 export const getTecnicos = async (req, res) => {
     try {
-        const tecnicos = await Tecnico.findAll({
-            include: {
-                model: CategoriaTecnico,
-                as: 'categoria'
-            }
-        });
+        const tecnicos = await Tecnico.findAll();
         res.json(tecnicos);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -20,12 +14,7 @@ export const getTecnicos = async (req, res) => {
 export const getTecnicoById = async (req, res) => {
     try {
         const { id } = req.params;
-        const tecnico = await Tecnico.findByPk(id, {
-            include: {
-                model: CategoriaTecnico,
-                as: 'categoria'
-            }
-        });
+        const tecnico = await Tecnico.findByPk(id);
         if (!tecnico) {
             return res.status(404).json({ message: 'Técnico no encontrado' });
         }
@@ -38,15 +27,8 @@ export const getTecnicoById = async (req, res) => {
 // Crear un nuevo técnico
 export const postTecnico = async (req, res) => {
     try {
-        const { nombre, telefono, email, categoriaNombre } = req.body;
-
-        // Verifica si la categoría existe por su nombre
-        const categoria = await CategoriaTecnico.findOne({ where: { nombre: categoriaNombre } });
-        if (!categoria) {
-            return res.status(404).json({ message: 'Categoría no encontrada' });
-        }
-
-        const nuevoTecnico = await Tecnico.create({ nombre, telefono, email, categoriaId: categoria.id });
+        const { idTecnico ,nombre, telefono, email, estado} = req.body;
+        const nuevoTecnico = await Tecnico.create({ idTecnico, nombre, telefono, email, estado});
         res.status(201).json(nuevoTecnico);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -57,23 +39,12 @@ export const postTecnico = async (req, res) => {
 export const putTecnico = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nombre, telefono, email, categoriaNombre } = req.body;
+        const { nombre, telefono, email, estado } = req.body;
         const tecnico = await Tecnico.findByPk(id);
         if (!tecnico) {
             return res.status(404).json({ message: 'Técnico no encontrado' });
         }
-
-        // Verifica si la categoría existe por su nombre
-        if (categoriaNombre) {
-            const categoria = await CategoriaTecnico.findOne({ where: { nombre: categoriaNombre } });
-            if (!categoria) {
-                return res.status(404).json({ message: 'Categoría no encontrada' });
-            }
-            await tecnico.update({ nombre, telefono, email, categoriaId: categoria.id });
-        } else {
-            await tecnico.update({ nombre, telefono, email });
-        }
-        
+        await tecnico.update({ nombre, telefono, email, estado});
         res.json(tecnico);
     } catch (error) {
         res.status(400).json({ message: error.message });

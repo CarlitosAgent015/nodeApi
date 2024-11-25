@@ -1,11 +1,10 @@
 // controllers/servicioController.js
 import Servicio from '../models/servicio.js';
-import CategoriaServicio from '../models/categoriaServicio.js';
 
 // Obtener todos los servicios
 export const getServicios = async (req, res) => {
     try {
-        const servicios = await Servicio.findAll({ include: CategoriaServicio, as: 'categoria' }); // Incluyendo la categoría
+        const servicios = await Servicio.findAll(); // Incluyendo la categoría
         res.json(servicios);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -16,7 +15,7 @@ export const getServicios = async (req, res) => {
 export const getServicioById = async (req, res) => {
     try {
         const { id } = req.params;
-        const servicio = await Servicio.findByPk(id, { include: CategoriaServicio, as: 'categoria' });
+        const servicio = await Servicio.findByPk(id);
         if (!servicio) {
             return res.status(404).json({ message: 'Servicio no encontrado' });
         }
@@ -29,8 +28,8 @@ export const getServicioById = async (req, res) => {
 // Crear un nuevo servicio
 export const postServicio = async (req, res) => {
     try {
-        const { idServicio, nombre, descripcion, precio, idCategoria } = req.body;
-        const nuevoServicio = await Servicio.create({ idServicio, nombre, descripcion, precio, idCategoria });
+        const { idServicio, nombre, descripcion, precio, estado } = req.body;
+        const nuevoServicio = await Servicio.create({ idServicio, nombre, descripcion, precio, estado });
         res.status(201).json(nuevoServicio);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -41,12 +40,12 @@ export const postServicio = async (req, res) => {
 export const putServicio = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nombre, descripcion, precio, idCategoria } = req.body;
+        const { nombre, descripcion, precio, estado } = req.body;
         const servicio = await Servicio.findByPk(id);
         if (!servicio) {
             return res.status(404).json({ message: 'Servicio no encontrado' });
         }
-        await servicio.update({ nombre, descripcion, precio, idCategoria });
+        await servicio.update({ nombre, descripcion, precio, estado });
         res.json(servicio);
     } catch (error) {
         res.status(400).json({ message: error.message });
