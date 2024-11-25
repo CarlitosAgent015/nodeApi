@@ -4,7 +4,8 @@ import { sequelize } from '../database/config.js';
 const CategoriaTecnico = sequelize.define('CategoriaTecnico', {
     idCategoria: {
         type: DataTypes.INTEGER,
-        primaryKey: true
+        unique: true,
+        primaryKey: true,
     },
     nombre: {
         type: DataTypes.STRING,
