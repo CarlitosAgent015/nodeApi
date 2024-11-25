@@ -8,6 +8,7 @@ import categoriaServicioRoutes from '../routes/categoriaServicioRoute.js';
 import detalle_OSTRoute from '../routes/detalle_OSTRoute.js';
 import usuarioRoute from '../routes/usuarioRoute.js';
 import OrdenServicio from '../routes/ordenServicioRoute.js';
+import Cliente from '../routes/clienteRoute.js';
 import cors from 'cors';
 import { sequelize } from '../database/config.js';
 
@@ -19,6 +20,7 @@ class Server {
         this.permisoPath = '/permiso';
         this.servicioPath = '/servicio';
         this.tecnicoPath = '/tecnico';
+        this.clientePath = '/cliente';
         this.categoriaTecnicoPath = '/categoriatecnico';
         this.categoriaServicioPath = '/categoriaservicio';
         this.detalle_OSTPath = '/detalle_ost';
@@ -58,6 +60,7 @@ class Server {
         this.app.use(this.detalle_OSTPath, detalle_OSTRoute);
         this.app.use(this.usuarioPath, usuarioRoute);
         this.app.use(this.ordePath, OrdenServicio);
+        this.app.use(this.clientePath, Cliente)
     }
 
     listen() {
